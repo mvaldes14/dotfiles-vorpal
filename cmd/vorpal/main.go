@@ -14,7 +14,7 @@ var Systems = []api.ArtifactSystem{
 
 func main() {
 	ctx:= config.GetContext()
-	fmt.Println("Building artifacts...")
+	fmt.Println("Building dotfiles...")
 
 	artifact.NewUserEnvironment("mvaldes", Systems).
 		WithSymlinks(map[string]string{"$HOME/git/dotfiles/.config": "$HOME/.config"}).
