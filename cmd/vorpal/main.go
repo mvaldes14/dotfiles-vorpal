@@ -32,6 +32,8 @@ func main() {
 			"$HOME/git/dotfiles/.config/wezterm":     "$HOME/.config/wezterm",
 			"$HOME/git/dotfiles/.config/zed":         "$HOME/.config/zed",
 			"$HOME/git/dotfiles/.config/zsh":         "$HOME/.config/zsh",
+			"$HOME/git/dotfiles/claude":         			"$HOME/.claude",
+			"$HOME/git/dotfiles/.gitconfig":         			"$HOME/.gitconfig",
 		}).
 		WithEnvironments([]string{"CLAUDE_TEST=1", "FOO=BAR"}).
 		WithArtifacts(RequiredPackages(ctx)).

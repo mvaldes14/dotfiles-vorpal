@@ -202,37 +202,5 @@ func RequiredPackages(ctx *config.ConfigContext) []*string {
 	}
 	pkgs = append(pkgs, npmPkgs)
 
-	tmuxStep, err := artifact.Shell(ctx, nil, []string{}, `
-        WORKDIR=$(pwd)
-        JOBS=$(sysctl -n hw.logicalcpu)
-        LIBEVENT_VER="2.1.12"
-        TMUX_VER=$(curl -sfL -o /dev/null -w '%{url_effective}' https://github.com/tmux/tmux/releases/latest | sed 's|.*/||')
-
-        # Build libevent (required tmux dependency)
-        curl -sfL "https://github.com/libevent/libevent/releases/download/release-${LIBEVENT_VER}-stable/libevent-${LIBEVENT_VER}-stable.tar.gz" | tar xz
-        cd libevent-${LIBEVENT_VER}-stable
-        ./configure --prefix="${WORKDIR}/libevent" --disable-openssl --disable-samples
-        make -j${JOBS}
-        make install
-        cd "${WORKDIR}"
-
-        # Build tmux
-        curl -sfL "https://github.com/tmux/tmux/releases/download/${TMUX_VER}/tmux-${TMUX_VER}.tar.gz" | tar xz
-        cd tmux-${TMUX_VER}
-        ./configure --prefix=$VORPAL_OUTPUT \
-            CFLAGS="-I${WORKDIR}/libevent/include" \
-            LDFLAGS="-L${WORKDIR}/libevent/lib"
-        make -j${JOBS}
-        make install
-    `, nil)
-	if err != nil {
-		panic(err)
-	}
-	tmux, err := artifact.NewArtifact("tmux", []*api.ArtifactStep{tmuxStep}, system).Build(ctx)
-	if err != nil {
-		panic(err)
-	}
-	pkgs = append(pkgs, tmux)
-
 	return pkgs
 }
