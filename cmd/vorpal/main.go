@@ -18,12 +18,10 @@ func main() {
 
 	artifact.NewUserEnvironment("mvaldes", Systems).
 		WithSymlinks(map[string]string{
-			"$HOME/git/dotfiles/.config/aerospace":   "$HOME/.config/aerospace",
 			"$HOME/git/dotfiles/.config/atuin":       "$HOME/.config/atuin",
 			"$HOME/git/dotfiles/.config/bat":         "$HOME/.config/bat",
 			"$HOME/git/dotfiles/.config/direnv":      "$HOME/.config/direnv",
 			"$HOME/git/dotfiles/.config/ghostty":     "$HOME/.config/ghostty",
-			"$HOME/git/dotfiles/.config/glazewm":     "$HOME/.config/glazewm",
 			"$HOME/git/dotfiles/.config/lazygit":     "$HOME/.config/lazygit",
 			"$HOME/git/dotfiles/.config/nvim":        "$HOME/.config/nvim",
 			"$HOME/git/dotfiles/.config/opencode":    "$HOME/.config/opencode",
@@ -33,9 +31,8 @@ func main() {
 			"$HOME/git/dotfiles/.config/zed":         "$HOME/.config/zed",
 			"$HOME/git/dotfiles/.config/zsh":         "$HOME/.config/zsh",
 			"$HOME/git/dotfiles/claude":         			"$HOME/.claude",
-			"$HOME/git/dotfiles/.gitconfig":         			"$HOME/.gitconfig",
+			"$HOME/git/dotfiles/.gitconfig":         	"$HOME/.gitconfig",
 		}).
-		WithEnvironments([]string{"CLAUDE_TEST=1", "FOO=BAR"}).
 		WithArtifacts(RequiredPackages(ctx)).
 		Build(ctx)
 

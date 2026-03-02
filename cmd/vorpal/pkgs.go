@@ -120,22 +120,6 @@ func RequiredPackages(ctx *config.ConfigContext) []*string {
 	}
 	pkgs = append(pkgs, k9s)
 
-	lazygitStep, err := artifact.Shell(ctx, nil, []string{}, `
-        VERSION=$(curl -sfL -o /dev/null -w '%{url_effective}' https://github.com/jesseduffield/lazygit/releases/latest | sed 's|.*/||')
-        VER="${VERSION#v}"
-        curl -sfL "https://github.com/jesseduffield/lazygit/releases/download/${VERSION}/lazygit_${VER}_darwin_arm64.tar.gz" | tar xz
-        mkdir -p $VORPAL_OUTPUT/bin
-        cp lazygit $VORPAL_OUTPUT/bin/
-    `, nil)
-	if err != nil {
-		panic(err)
-	}
-	lazygit, err := artifact.NewArtifact("lazygit", []*api.ArtifactStep{lazygitStep}, system).Build(ctx)
-	if err != nil {
-		panic(err)
-	}
-	pkgs = append(pkgs, lazygit)
-
 	ripgrepStep, err := artifact.Shell(ctx, nil, []string{}, `
         VERSION=$(curl -sfL -o /dev/null -w '%{url_effective}' https://github.com/BurntSushi/ripgrep/releases/latest | sed 's|.*/||')
         curl -sfL "https://github.com/BurntSushi/ripgrep/releases/download/${VERSION}/ripgrep-${VERSION}-aarch64-apple-darwin.tar.gz" | tar xz
@@ -164,22 +148,6 @@ func RequiredPackages(ctx *config.ConfigContext) []*string {
 		panic(err)
 	}
 	pkgs = append(pkgs, starship)
-
-	zoxideStep, err := artifact.Shell(ctx, nil, []string{}, `
-        VERSION=$(curl -sfL -o /dev/null -w '%{url_effective}' https://github.com/ajeetdsouza/zoxide/releases/latest | sed 's|.*/||')
-        VER="${VERSION#v}"
-        curl -sfL "https://github.com/ajeetdsouza/zoxide/releases/download/${VERSION}/zoxide-${VER}-aarch64-apple-darwin.tar.gz" | tar xz
-        mkdir -p $VORPAL_OUTPUT/bin
-        cp zoxide $VORPAL_OUTPUT/bin/
-    `, nil)
-	if err != nil {
-		panic(err)
-	}
-	zoxide, err := artifact.NewArtifact("zoxide", []*api.ArtifactStep{zoxideStep}, system).Build(ctx)
-	if err != nil {
-		panic(err)
-	}
-	pkgs = append(pkgs, zoxide)
 
 	bun, err := artifact.Bun(ctx)
 	if err != nil {
